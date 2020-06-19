@@ -1,0 +1,32 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    build: wachtpagina
+    app: wachtpagina
+  name: wachtpagina
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: wachtpagina:latest
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      ref: master
+      uri: https://github.com/viaacode/wachtpagina.git
+    type: Git
+  strategy:
+    type: Docker
+  triggers:
+  - github:
+      secretReference:
+        name: wachtpagina-buildtrigger
+    type: GitHub
+  - type: ConfigChange
+status:
+  lastVersion: 0
